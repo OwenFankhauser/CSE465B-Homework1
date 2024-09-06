@@ -38,7 +38,7 @@ public class Zpm {
             System.out.println("Please use a Z+- file with the propper '.zpm' extension.");
             System.exit(0);
         }
-        return null; // TODO clean this 
+        return null; // Unreachable
     }
     
     /**
@@ -55,6 +55,11 @@ public class Zpm {
         }
     }
     
+    /**
+     * This method assigns what function to execute based on the line's 
+     *  keyword.
+     * @param line The line to be read.
+     */
     public static void assign(String line) {
         if (line.contains("FOR")) {
             loop(line);
