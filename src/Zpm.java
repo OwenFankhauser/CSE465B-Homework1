@@ -51,13 +51,17 @@ public class Zpm {
         String line;
         while (in.hasNextLine()) {
             line = in.nextLine();
-            if (line.contains("FOR")) {
-                loop(line);
-            } else if (line.contains("=")) {
-                define(line);
-            } else if (line.contains("PRINT")) {
-                display(line);
-            }
+            assign(line);
+        }
+    }
+    
+    public static void assign(String line) {
+        if (line.contains("FOR")) {
+            loop(line);
+        } else if (line.contains("=")) {
+            define(line);
+        } else if (line.contains("PRINT")) {
+            display(line);
         }
     }
     
@@ -115,8 +119,10 @@ public class Zpm {
         case "=": vari.put(variName, added);
             break;
         default: operationDoesNotExistException(line, operation);
+        in.close();
         return false;
         }
+        in.close();
         return true;
     }
 
@@ -252,9 +258,24 @@ public class Zpm {
         System.exit(0);
     }
 
+    /**
+     * This method handles loops. The loop is parsed and executed as if it were
+     *  assigned by the interpret method.
+     *  
+     * @param line The like containing the for loop.
+     */
     private static void loop(String line) {
-        // TODO Auto-generated method stub
-        
+        String[]elements = line.split(" ");
+        int count = Integer.parseInt(elements[1]);
+        String operation = line.substring(line.indexOf(elements[2]));
+        operation.trim();
+        String[] lines = operation.split(";");
+        for (int i = 0; i < count; i++) {
+            for (String execute : lines) {
+                assign(execute.replace("ENDFOR", "").trim());
+            }
+            
+        }
     }
     
     /**
